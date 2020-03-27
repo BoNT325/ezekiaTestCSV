@@ -14,10 +14,10 @@ class CreateCandidatesTable extends Migration
     public function up()
     {
         Schema::create('candidates', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->primary;
             $table->string('name');
             $table->string('surname');
-            $table->string('email')->unique();
+            $table->string('email');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateCandidatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('candidates');
     }
 }
