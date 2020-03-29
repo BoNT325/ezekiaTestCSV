@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\candidates;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/load', 'databaseController@parseCandidates');
+
 Route::get('/', function () {
-    return view('welcome');
+
+   
 });
