@@ -64,6 +64,10 @@
         </style>
     </head>
     <body>
+
+  //  $getJobsInformationQuery = "SELECT jobTitle, companyName, startDate, endDate FROM candidates_jobs WHERE candidateID=$candidateID GROUP BY jobID ORDER BY startDate";
+
+    <a href="/load" class = "btn btn-default"></a>
     <table class="table">
     <thead>
         <tr>

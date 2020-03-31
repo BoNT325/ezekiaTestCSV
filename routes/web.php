@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\candidates;
+use App\candidate;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +14,10 @@ use App\candidates;
 |
 */
 
-Route::get('/load', 'databaseController@parseCandidates');
+Route::get('/load', 'databaseController@parseCandidates' );
+Route::get('/jobs', 'databaseController@parseJobs');
 
 Route::get('/', function () {
 
-   
+
 });
