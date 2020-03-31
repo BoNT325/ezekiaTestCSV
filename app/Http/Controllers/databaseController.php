@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\candidate;
 use App\jobs_table;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+//use Carbon\Carbon;
 
 class databaseController extends Controller
 {
-
+    public function index(){
+        $finalCandidateData = DB::table('candidates')
+                                ->join('jobs_table', 'jobs_table.candidate_id', '=', 'candidates.id')
+                                ->orderBy('candidates.id')
+                                ->orderBy('jobs_table.start', 'DESC')
+                                ->get();
+        return view('/welcome')->withData ( $finalCandidateData );
+    }
     public function parseCandidates() {
         if(($handle=fopen(public_path().'/candidates.csv','r'))!==FALSE) {
             while ( ($data = fgetcsv ( $handle, 1000, ',')) !== FALSE) {
@@ -22,13 +30,13 @@ class databaseController extends Controller
                 }
                 fclose ($handle);
             }
-        $finalCandidateData = $candidates::all ();
-        //return view('welcome')->withData ( $finalCandidateData );
         databaseController::parseJobs();
+        return view('load');
     }
-    public function parseJobs(){
-        if(($handle=fopen(public_path().'/jobs.csv','r')) !==FALSE) {
-            while ( ($data = fgetcsv ( $handle, 1000, ',')) !== FALSE) {
+    public function parseJobs()
+    {
+        if (($handle = fopen(public_path() . '/jobs.csv', 'r')) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
                 $jobs_table = new jobs_table();
                 $jobs_table->job_id = $data [0];
                 $jobs_table->candidate_id = $data [1];
@@ -38,21 +46,19 @@ class databaseController extends Controller
                 $startArr = explode(" ", $data[4]);
                 $startMdY = explode(".", $startArr[0]);
 
-                $jobs_table->start = date($startMdY[2]."-". $startMdY[1]."-".$startMdY[0]." ".$startArr[1].":00");
+                $jobs_table->start = date($startMdY[2] . "-" . $startMdY[1] . "-" . $startMdY[0] . " " . $startArr[1] . ":00");
 
 
                 $endArr = explode(" ", $data[5]);
                 $endMdY = explode(".", $endArr[0]);
 
-                $jobs_table->end = date($endMdY[2]."-". $endMdY[1]."-".$endMdY[0]." ".$endArr[1].":00");
+                $jobs_table->end = date($endMdY[2] . "-" . $endMdY[1] . "-" . $endMdY[0] . " " . $endArr[1] . ":00");
 
 
                 $jobs_table->save();
             }
-            fclose ($handle);
+            fclose($handle);
         }
         $finalJobsData = $jobs_table::all();
-        return view('jobs')->withData ($finalJobsData);
     }
-
 }

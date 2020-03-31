@@ -14,7 +14,7 @@ class JobsTable extends Migration
     public function up()
     {
         Schema::create('jobs_table', function (Blueprint $table) {
-            
+
             $table->bigIncrements('job_id');
             $table->unsignedBigInteger('candidate_id');
             $table->string('job_title');
@@ -24,7 +24,7 @@ class JobsTable extends Migration
 
             $table->foreign('candidate_id')->references('id')->on('candidates');
         });
-            
+
     }
 
     /**

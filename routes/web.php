@@ -14,10 +14,7 @@ use App\candidate;
 |
 */
 
-Route::get('/load', 'databaseController@parseCandidates' );
+Route::get('/load', 'databaseController@parseCandidates');
 Route::get('/jobs', 'databaseController@parseJobs');
 
-Route::get('/', function () {
-
-
-});
+Route::get('/', 'databaseController@index');
